@@ -1,6 +1,8 @@
 import { supabase } from '@/lib/supabase'
 import DashboardClient from './DashboardClient'
 
+export const revalidate = 0
+
 interface Click {
   id: string
   region: string
