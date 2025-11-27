@@ -28,12 +28,23 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
           <h1 className="text-4xl font-bold text-yellow-400 tracking-tight">
             Tracking Dashboard
           </h1>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="px-6 py-2.5 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-300 transition-all duration-200 shadow-lg shadow-yellow-400/30"
-          >
-            Refresh
-          </button>
+          <div className="flex gap-3">
+            <button 
+              onClick={() => window.location.reload()} 
+              className="px-6 py-2.5 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-300 transition-all duration-200 shadow-lg shadow-yellow-400/30"
+            >
+              Refresh
+            </button>
+            <button 
+              onClick={async () => {
+                await fetch('/api/dashboard/logout', { method: 'POST' })
+                window.location.href = '/dashboard/login'
+              }}
+              className="px-6 py-2.5 bg-gray-700 text-gray-200 font-bold rounded-lg hover:bg-gray-600 transition-all duration-200"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
