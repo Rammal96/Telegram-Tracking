@@ -1,5 +1,7 @@
 import { supabase } from '@/lib/supabase'
 import DashboardClient from './DashboardClient'
+import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 
 export const revalidate = 0
 
@@ -33,6 +35,18 @@ async function getClicks() {
 }
 
 export default async function Dashboard() {
+  // Check authentication
+  const cookieStore = await cookies()
+  const authCookie = cookieStore.get('dashboard_auth')
+  
+  if (!process.env.DASHBOARD_PASSWORD) {
+    return <div className="min-h-screen bg-black flex items-center justify-center text-yellow-400">Dashboard password not configured. Please set DASHBOARD_PASSWORD in Vercel.</div>
+  }
+
+  if (!authCookie || authCookie.value !== process.env.DASHBOARD_PASSWORD) {
+    redirect('/dashboard/login')
+  }
+
   const clicks = await getClicks()
 
   const totalClicks = clicks.length
