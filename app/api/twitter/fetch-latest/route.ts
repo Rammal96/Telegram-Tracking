@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 
+export async function GET(request: NextRequest) {
+  return await fetchLatestTweet()
+}
+
 export async function POST(request: NextRequest) {
+  return await fetchLatestTweet()
+}
+
+async function fetchLatestTweet(): Promise<NextResponse> {
   try {
     // Check for Twitter API credentials
     const twitterBearerToken = process.env.TWITTER_BEARER_TOKEN
@@ -13,9 +21,12 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // First, get user ID for MaestroBots
+    // Get Twitter username from environment variable or default to MaestroBots
+    const twitterUsername = process.env.TWITTER_USERNAME || 'MaestroBots'
+    
+    // First, get user ID for the specified account
     const userResponse = await fetch(
-      'https://api.twitter.com/2/users/by/username/MaestroBots',
+      `https://api.twitter.com/2/users/by/username/${twitterUsername}`,
       {
         headers: {
           'Authorization': `Bearer ${twitterBearerToken}`,
@@ -65,7 +76,7 @@ export async function POST(request: NextRequest) {
     }
 
     const latestTweet = data.data[0]
-    const tweetUrl = `https://x.com/MaestroBots/status/${latestTweet.id}`
+    const tweetUrl = `https://x.com/${twitterUsername}/status/${latestTweet.id}`
 
     // Update in Supabase
     const { data: updated, error: updateError } = await supabase
