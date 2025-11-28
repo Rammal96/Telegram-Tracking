@@ -20,7 +20,6 @@ async function getClicks() {
       .from('clicks')
       .select('*')
       .order('timestamp', { ascending: false })
-      .limit(50)
 
     if (error) {
       console.error('Error fetching clicks:', error)

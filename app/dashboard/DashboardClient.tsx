@@ -109,7 +109,7 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
         </div>
 
         <div className="bg-gray-900/90 border border-yellow-400/20 p-6 rounded-lg shadow-xl">
-          <h2 className="text-xl font-semibold mb-4 text-yellow-400">Last 50 Click Events</h2>
+          <h2 className="text-xl font-semibold mb-4 text-yellow-400">All Click Events</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-800">
               <thead className="bg-gray-950">
