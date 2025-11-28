@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { TWITTER_REDIRECT_URL } from '@/lib/twitter'
+import { getTwitterUrl } from '@/lib/twitter'
 
 const VALID_REGIONS = [
   'turkey',
@@ -56,6 +56,7 @@ export async function GET(
     console.error(`Exception logging click for region ${region}:`, error)
   }
 
-  return NextResponse.redirect(TWITTER_REDIRECT_URL)
+  const twitterUrl = await getTwitterUrl()
+  return NextResponse.redirect(twitterUrl)
 }
 
