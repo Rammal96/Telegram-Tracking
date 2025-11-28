@@ -1,9 +1,4 @@
 {
-  "crons": [
-    {
-      "path": "/api/twitter/fetch-latest",
-      "schedule": "*/15 * * * *"
-    }
-  ]
+  "crons": []
 }
 
