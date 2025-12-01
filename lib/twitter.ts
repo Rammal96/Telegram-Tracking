@@ -10,15 +10,15 @@ export async function getTwitterUrl(): Promise<string> {
 
     if (error || !data) {
       // Fallback to default if not found
-      return 'https://x.com/MaestroBots/status/1994194433412137104?s=20'
+      return 'https://x.com/MaestroBots/status/1995547428137656685?s=20'
     }
 
     return data.value
   } catch (error) {
     console.error('Error fetching Twitter URL:', error)
-    return 'https://x.com/MaestroBots/status/1994194433412137104?s=20'
+    return 'https://x.com/MaestroBots/status/1995547428137656685?s=20'
   }
 }
 
 // Keep for backward compatibility
-export const TWITTER_REDIRECT_URL = "https://x.com/MaestroBots/status/1994194433412137104?s=20"
+export const TWITTER_REDIRECT_URL = "https://x.com/MaestroBots/status/1995547428137656685?s=20"
