@@ -21,15 +21,22 @@ interface DashboardClientProps {
   startTime?: string | null
 }
 
-export default function DashboardClient({ clicks, regionData, timeChartData, totalClicks, regionCounts }: DashboardClientProps) {
+export default function DashboardClient({ clicks, regionData, timeChartData, totalClicks, regionCounts, title = "Tracking Dashboard", startTime }: DashboardClientProps) {
 
   return (
     <div className="min-h-screen bg-black p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-yellow-400 tracking-tight">
-            Tracking Dashboard
-          </h1>
+          <div>
+            <h1 className="text-4xl font-bold text-yellow-400 tracking-tight">
+              {title}
+            </h1>
+            {startTime && (
+              <p className="text-gray-400 text-sm mt-2">
+                Tracking from: {new Date(startTime).toLocaleString('en-US')}
+              </p>
+            )}
+          </div>
           <div className="flex gap-3 items-center">
             <div className="flex gap-2">
               <a 
