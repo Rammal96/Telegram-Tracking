@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase'
-import DashboardClient from './DashboardClient'
+import DashboardClient from '../DashboardClient'
+import StartWeek2Button from './start-button'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 
@@ -41,9 +42,8 @@ async function getClicks() {
       .select('*')
       .order('timestamp', { ascending: false })
 
-    // If Week 2 has started, only show clicks before that time
     if (startTime) {
-      query = query.lt('timestamp', startTime)
+      query = query.gte('timestamp', startTime)
     }
 
     const { data, error } = await query
@@ -60,7 +60,7 @@ async function getClicks() {
   }
 }
 
-export default async function Dashboard() {
+export default async function Week2Dashboard() {
   // Check authentication
   const cookieStore = await cookies()
   const authCookie = cookieStore.get('dashboard_auth')
@@ -74,6 +74,7 @@ export default async function Dashboard() {
   }
 
   const clicks = await getClicks()
+  const startTime = await getTrackingStartTime()
 
   const totalClicks = clicks.length
 
@@ -97,18 +98,24 @@ export default async function Dashboard() {
     .map(([date, count]) => ({ date, clicks: count }))
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 
-  const startTime = await getTrackingStartTime()
-
   return (
-    <DashboardClient 
-      clicks={clicks} 
-      regionData={regionData} 
-      timeChartData={timeChartData} 
-      totalClicks={totalClicks} 
-      regionCounts={regionCounts}
-      title="Week 1 Dashboard"
-      startTime={startTime ? null : undefined}
-    />
+    <div>
+      {!startTime && (
+        <div className="mb-6 bg-yellow-900/50 border border-yellow-400/30 p-4 rounded-lg">
+          <p className="text-yellow-400 mb-3">Week 2 tracking has not started yet.</p>
+          <StartWeek2Button />
+        </div>
+      )}
+      <DashboardClient 
+        clicks={clicks} 
+        regionData={regionData} 
+        timeChartData={timeChartData} 
+        totalClicks={totalClicks} 
+        regionCounts={regionCounts}
+        title="Week 2 Dashboard"
+        startTime={startTime}
+      />
+    </div>
   )
 }
 

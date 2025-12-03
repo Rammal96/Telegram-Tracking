@@ -17,6 +17,8 @@ interface DashboardClientProps {
   timeChartData: { date: string; clicks: number }[]
   totalClicks: number
   regionCounts: Record<string, number>
+  title?: string
+  startTime?: string | null
 }
 
 export default function DashboardClient({ clicks, regionData, timeChartData, totalClicks, regionCounts }: DashboardClientProps) {
@@ -28,7 +30,21 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
           <h1 className="text-4xl font-bold text-yellow-400 tracking-tight">
             Tracking Dashboard
           </h1>
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-center">
+            <div className="flex gap-2">
+              <a 
+                href="/dashboard"
+                className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200"
+              >
+                Week 1
+              </a>
+              <a 
+                href="/dashboard/week2"
+                className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200"
+              >
+                Week 2
+              </a>
+            </div>
             <button 
               onClick={() => window.location.reload()} 
               className="px-6 py-2.5 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-300 transition-all duration-200 shadow-lg shadow-yellow-400/30"
