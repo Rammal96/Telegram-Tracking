@@ -19,9 +19,10 @@ interface DashboardClientProps {
   regionCounts: Record<string, number>
   title?: string
   startTime?: string | null
+  tweetCount?: number
 }
 
-export default function DashboardClient({ clicks, regionData, timeChartData, totalClicks, regionCounts, title = "Tracking Dashboard", startTime }: DashboardClientProps) {
+export default function DashboardClient({ clicks, regionData, timeChartData, totalClicks, regionCounts, title = "Tracking Dashboard", startTime, tweetCount }: DashboardClientProps) {
 
   return (
     <div className="min-h-screen bg-black p-8">
@@ -70,7 +71,7 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className={`grid grid-cols-1 ${tweetCount !== undefined ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-6 mb-8`}>
           <div className="bg-gray-900/90 border border-yellow-400/20 p-6 rounded-lg shadow-xl hover:border-yellow-400/40 transition-all duration-300">
             <h2 className="text-lg font-semibold mb-2 text-gray-400">Total Clicks</h2>
             <p className="text-5xl font-bold text-yellow-400">{totalClicks}</p>
@@ -80,6 +81,13 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
             <h2 className="text-lg font-semibold mb-2 text-gray-400">Regions Tracked</h2>
             <p className="text-5xl font-bold text-yellow-400">{Object.keys(regionCounts).length}</p>
           </div>
+
+          {tweetCount !== undefined && (
+            <div className="bg-gray-900/90 border border-yellow-400/20 p-6 rounded-lg shadow-xl hover:border-yellow-400/40 transition-all duration-300">
+              <h2 className="text-lg font-semibold mb-2 text-gray-400">Number of Tweets</h2>
+              <p className="text-5xl font-bold text-yellow-400">{tweetCount}</p>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">

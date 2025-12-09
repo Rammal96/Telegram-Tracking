@@ -33,6 +33,24 @@ async function getTrackingStartTime(): Promise<string | null> {
   }
 }
 
+async function getTweetCount(): Promise<number> {
+  try {
+    const { data, error } = await supabase
+      .from('settings')
+      .select('value')
+      .eq('key', 'week2_tweet_count')
+      .single()
+
+    if (error || !data) {
+      return 4 // Default to 4 if not set
+    }
+
+    return parseInt(data.value) || 4
+  } catch (error) {
+    return 4
+  }
+}
+
 async function getClicks() {
   try {
     const startTime = await getTrackingStartTime()
@@ -75,6 +93,7 @@ export default async function Week2Dashboard() {
 
   const clicks = await getClicks()
   const startTime = await getTrackingStartTime()
+  const tweetCount = await getTweetCount()
 
   const totalClicks = clicks.length
 
@@ -114,6 +133,7 @@ export default async function Week2Dashboard() {
         regionCounts={regionCounts}
         title="Week 2 Dashboard"
         startTime={startTime}
+        tweetCount={tweetCount}
       />
     </div>
   )
