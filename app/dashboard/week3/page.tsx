@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase'
-import DashboardClient from './DashboardClient'
+import DashboardClient from '../DashboardClient'
+import StartWeek3Button from './start-button'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 
@@ -16,27 +17,17 @@ interface Click {
 
 async function getTrackingStartTime(): Promise<string | null> {
   try {
-    // Get the latest start time (Week 2 or Week 3, whichever is later)
-    const { data: week2, error: e2 } = await supabase
-      .from('settings')
-      .select('value')
-      .eq('key', 'week2_start_time')
-      .single()
-
-    const { data: week3, error: e3 } = await supabase
+    const { data, error } = await supabase
       .from('settings')
       .select('value')
       .eq('key', 'week3_start_time')
       .single()
 
-    const times = []
-    if (week2?.value) times.push(week2.value)
-    if (week3?.value) times.push(week3.value)
+    if (error || !data) {
+      return null
+    }
 
-    if (times.length === 0) return null
-
-    // Return the earliest start time (so Week 1 shows everything before the first week started)
-    return times.sort()[0]
+    return data.value
   } catch (error) {
     return null
   }
@@ -51,9 +42,8 @@ async function getClicks() {
       .select('*')
       .order('timestamp', { ascending: false })
 
-    // If Week 2 has started, only show clicks before that time
     if (startTime) {
-      query = query.lt('timestamp', startTime)
+      query = query.gte('timestamp', startTime)
     }
 
     const { data, error } = await query
@@ -70,7 +60,25 @@ async function getClicks() {
   }
 }
 
-export default async function Dashboard() {
+async function getTweetCount(): Promise<number> {
+  try {
+    const { data, error } = await supabase
+      .from('settings')
+      .select('value')
+      .eq('key', 'week3_tweet_count')
+      .single()
+
+    if (error || !data) {
+      return 1 // Default to 1 if not set
+    }
+
+    return parseInt(data.value) || 1
+  } catch (error) {
+    return 1
+  }
+}
+
+export default async function Week3Dashboard() {
   // Check authentication
   const cookieStore = await cookies()
   const authCookie = cookieStore.get('dashboard_auth')
@@ -84,6 +92,8 @@ export default async function Dashboard() {
   }
 
   const clicks = await getClicks()
+  const startTime = await getTrackingStartTime()
+  const tweetCount = await getTweetCount()
 
   const totalClicks = clicks.length
 
@@ -107,18 +117,25 @@ export default async function Dashboard() {
     .map(([date, count]) => ({ date, clicks: count }))
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 
-  const startTime = await getTrackingStartTime()
-
   return (
-    <DashboardClient 
-      clicks={clicks} 
-      regionData={regionData} 
-      timeChartData={timeChartData} 
-      totalClicks={totalClicks} 
-      regionCounts={regionCounts}
-      title="Week 1 Dashboard"
-      startTime={startTime ? null : undefined}
-    />
+    <div>
+      {!startTime && (
+        <div className="mb-6 bg-yellow-900/50 border border-yellow-400/30 p-4 rounded-lg">
+          <p className="text-yellow-400 mb-3">Week 3 tracking has not started yet.</p>
+          <StartWeek3Button />
+        </div>
+      )}
+      <DashboardClient 
+        clicks={clicks} 
+        regionData={regionData} 
+        timeChartData={timeChartData} 
+        totalClicks={totalClicks} 
+        regionCounts={regionCounts}
+        title="Week 3 Dashboard"
+        startTime={startTime}
+        tweetCount={tweetCount}
+      />
+    </div>
   )
 }
 

@@ -52,6 +52,12 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
               >
                 Week 2
               </a>
+              <a 
+                href="/dashboard/week3"
+                className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200"
+              >
+                Week 3
+              </a>
             </div>
             <button 
               onClick={() => window.location.reload()} 
