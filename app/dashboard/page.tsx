@@ -16,27 +16,18 @@ interface Click {
 
 async function getTrackingStartTime(): Promise<string | null> {
   try {
-    // Get the latest start time (Week 2 or Week 3, whichever is later)
-    const { data: week2, error: e2 } = await supabase
+    // Get Week 2 start time (Week 1 shows everything before Week 2)
+    const { data, error } = await supabase
       .from('settings')
       .select('value')
       .eq('key', 'week2_start_time')
       .single()
 
-    const { data: week3, error: e3 } = await supabase
-      .from('settings')
-      .select('value')
-      .eq('key', 'week3_start_time')
-      .single()
+    if (error || !data) {
+      return null
+    }
 
-    const times = []
-    if (week2?.value) times.push(week2.value)
-    if (week3?.value) times.push(week3.value)
-
-    if (times.length === 0) return null
-
-    // Return the earliest start time (so Week 1 shows everything before the first week started)
-    return times.sort()[0]
+    return data.value
   } catch (error) {
     return null
   }
