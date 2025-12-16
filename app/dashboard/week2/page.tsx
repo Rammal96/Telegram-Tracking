@@ -33,6 +33,24 @@ async function getTrackingStartTime(): Promise<string | null> {
   }
 }
 
+async function getWeek3StartTime(): Promise<string | null> {
+  try {
+    const { data, error } = await supabase
+      .from('settings')
+      .select('value')
+      .eq('key', 'week3_start_time')
+      .single()
+
+    if (error || !data) {
+      return null
+    }
+
+    return data.value
+  } catch (error) {
+    return null
+  }
+}
+
 async function getTweetCount(): Promise<number> {
   try {
     const { data, error } = await supabase
@@ -54,6 +72,7 @@ async function getTweetCount(): Promise<number> {
 async function getClicks() {
   try {
     const startTime = await getTrackingStartTime()
+    const week3StartTime = await getWeek3StartTime()
     
     let query = supabase
       .from('clicks')
@@ -62,6 +81,11 @@ async function getClicks() {
 
     if (startTime) {
       query = query.gte('timestamp', startTime)
+    }
+
+    // Exclude Week 3 clicks if Week 3 has started
+    if (week3StartTime) {
+      query = query.lt('timestamp', week3StartTime)
     }
 
     const { data, error } = await query
