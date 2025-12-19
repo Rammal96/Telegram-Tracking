@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const REGIONS = [
   { slug: 'turkey', name: 'Turkey' },
@@ -21,7 +21,12 @@ const REGIONS = [
 
 export default function LinksPage() {
   const [copied, setCopied] = useState<string | null>(null)
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://telegram-tracking.vercel.app'
+  const [baseUrl, setBaseUrl] = useState<string>('')
+
+  // Set baseUrl only on client side to avoid hydration mismatch
+  useEffect(() => {
+    setBaseUrl(window.location.origin)
+  }, [])
 
   const copyToClipboard = (text: string, region: string) => {
     navigator.clipboard.writeText(text)
@@ -39,6 +44,18 @@ export default function LinksPage() {
 
   const getPlainLink = (slug: string) => {
     return `${baseUrl}/${slug}`
+  }
+
+  // Don't render links until baseUrl is set (client-side only)
+  if (!baseUrl) {
+    return (
+      <div className="min-h-screen bg-black text-white p-8 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading links...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
