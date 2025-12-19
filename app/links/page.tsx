@@ -76,7 +76,7 @@ export default function LinksPage() {
               
               <div className="space-y-3">
                 <div>
-                  <label className="text-yellow-400 text-sm mb-1 block font-semibold">⭐ Plain URL (BEST FOR TELEGRAM):</label>
+                  <label className="text-yellow-400 text-sm mb-1 block font-semibold">⭐ URL (Copy this for Method 1):</label>
                   <div className="flex gap-2">
                     <code className="flex-1 bg-gray-800 p-3 rounded text-sm text-gray-300 break-all">
                       {getPlainLink(region.slug)}
@@ -85,14 +85,14 @@ export default function LinksPage() {
                       onClick={() => copyToClipboard(getPlainLink(region.slug), region.slug)}
                       className="px-4 py-2 bg-yellow-400 text-black font-semibold rounded hover:bg-yellow-500 transition"
                     >
-                      Copy
+                      Copy URL
                     </button>
                   </div>
-                  <p className="text-gray-500 text-xs mt-1">Just paste this URL in Telegram - It will show a preview card with "New Maestro Tweet" as the title</p>
+                  <p className="text-gray-500 text-xs mt-1">Use this URL with Telegram's link button (see instructions below)</p>
                 </div>
                 
                 <div>
-                  <label className="text-gray-400 text-sm mb-1 block">Markdown (for Discord, Reddit, etc.):</label>
+                  <label className="text-gray-400 text-sm mb-1 block">Markdown (Alternative - shows URL below):</label>
                   <div className="flex gap-2">
                     <code className="flex-1 bg-gray-800 p-3 rounded text-sm text-gray-300 break-all">
                       {getMarkdownLink(region.slug)}
@@ -112,13 +112,23 @@ export default function LinksPage() {
         </div>
         
         <div className="mt-8 p-4 bg-yellow-900/30 border border-yellow-400/30 rounded-lg">
-          <p className="text-yellow-400 font-semibold mb-2">How to use in Telegram:</p>
-          <ul className="text-gray-300 text-sm space-y-1 list-disc list-inside">
-            <li><strong>Plain URL (RECOMMENDED):</strong> Just copy and paste the URL - Telegram will create a preview card with "New Maestro Tweet" as the title. The URL will be in small text at the bottom of the preview.</li>
-            <li><strong>Markdown:</strong> Works but shows the URL below the link text (not ideal for Telegram)</li>
-            <li><strong>HTML:</strong> Doesn't work in Telegram - shows as plain text</li>
-          </ul>
-          <p className="text-yellow-400 mt-3 text-xs">💡 Tip: Use the Plain URL format - Telegram's preview card will prominently show "New Maestro Tweet" as the title!</p>
+          <p className="text-yellow-400 font-semibold mb-2">How to create a "New Maestro Tweet" hyperlink in Telegram:</p>
+          <div className="text-gray-300 text-sm space-y-3">
+            <div className="bg-gray-800 p-4 rounded-lg">
+              <p className="text-yellow-400 font-semibold mb-2">Method 1: Telegram Link Button (BEST - No URL shows):</p>
+              <ol className="list-decimal list-inside space-y-1 ml-2">
+                <li>Type: <code className="bg-gray-900 px-2 py-1 rounded">New Maestro Tweet</code></li>
+                <li>Select the text "New Maestro Tweet"</li>
+                <li>Tap the <strong>link icon</strong> (or use the menu → "Add Link")</li>
+                <li>Paste this URL: <code className="bg-gray-900 px-2 py-1 rounded break-all">{baseUrl}/{'{region}'}</code></li>
+                <li>Send - It will show as clickable "New Maestro Tweet" with NO URL visible!</li>
+              </ol>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg">
+              <p className="text-yellow-400 font-semibold mb-2">Method 2: Markdown (Shows URL below):</p>
+              <p className="mb-2">Copy the Markdown format below - It works but shows the URL below the link text.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
