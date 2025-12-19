@@ -23,12 +23,17 @@ export async function generateMetadata({ params }: { params: { region: string } 
   const regionName = REGION_NAMES[region] || region
 
   return {
-    title: `New Maestro Tweet - ${regionName}`,
+    title: 'New Maestro Tweet',
     description: 'View the latest Maestro tweet',
     openGraph: {
       title: 'New Maestro Tweet',
       description: 'View the latest Maestro tweet',
       type: 'website',
+    },
+    twitter: {
+      card: 'summary',
+      title: 'New Maestro Tweet',
+      description: 'View the latest Maestro tweet',
     },
   }
 }
