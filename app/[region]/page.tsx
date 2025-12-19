@@ -57,7 +57,8 @@ export default function RegionPage() {
   const handleClick = () => {
     setIsRedirecting(true)
     // Redirect to tracking endpoint which will track and redirect to Twitter
-    window.location.href = `/api/track/${region}`
+    // Use window.location.replace to avoid confirmation dialogs
+    window.location.replace(`/api/track/${region}`)
   }
 
   const regionName = REGION_NAMES[region] || region

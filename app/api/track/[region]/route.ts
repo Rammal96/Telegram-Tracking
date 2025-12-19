@@ -57,6 +57,7 @@ export async function GET(
   }
 
   const twitterUrl = await getTwitterUrl()
-  return NextResponse.redirect(twitterUrl)
+  // Use 307 redirect to preserve method and avoid confirmation dialogs
+  return NextResponse.redirect(twitterUrl, { status: 307 })
 }
 
