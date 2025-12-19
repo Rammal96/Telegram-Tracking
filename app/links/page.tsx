@@ -76,19 +76,19 @@ export default function LinksPage() {
               
               <div className="space-y-3">
                 <div>
-                  <label className="text-yellow-400 text-sm mb-1 block font-semibold">⭐ HTML Format (WORKS IN TELEGRAM - No URL shows):</label>
+                  <label className="text-yellow-400 text-sm mb-1 block font-semibold">⭐ Plain URL (BEST FOR TELEGRAM):</label>
                   <div className="flex gap-2">
                     <code className="flex-1 bg-gray-800 p-3 rounded text-sm text-gray-300 break-all">
-                      {getHtmlLink(region.slug)}
+                      {getPlainLink(region.slug)}
                     </code>
                     <button
-                      onClick={() => copyToClipboard(getHtmlLink(region.slug), region.slug)}
+                      onClick={() => copyToClipboard(getPlainLink(region.slug), region.slug)}
                       className="px-4 py-2 bg-yellow-400 text-black font-semibold rounded hover:bg-yellow-500 transition"
                     >
                       Copy
                     </button>
                   </div>
-                  <p className="text-gray-500 text-xs mt-1">Paste this in Telegram - Only "New Maestro Tweet" will show as clickable, NO URL</p>
+                  <p className="text-gray-500 text-xs mt-1">Just paste this URL in Telegram - It will show a preview card with "New Maestro Tweet" as the title</p>
                 </div>
                 
                 <div>
@@ -104,6 +104,7 @@ export default function LinksPage() {
                       Copy
                     </button>
                   </div>
+                  <p className="text-gray-500 text-xs mt-1">Note: In Telegram, this shows the URL below the link text</p>
                 </div>
               </div>
             </div>
@@ -111,12 +112,13 @@ export default function LinksPage() {
         </div>
         
         <div className="mt-8 p-4 bg-yellow-900/30 border border-yellow-400/30 rounded-lg">
-          <p className="text-yellow-400 font-semibold mb-2">How to use (NO URL will show):</p>
+          <p className="text-yellow-400 font-semibold mb-2">How to use in Telegram:</p>
           <ul className="text-gray-300 text-sm space-y-1 list-disc list-inside">
-            <li><strong>HTML Format (FOR TELEGRAM):</strong> Copy and paste into Telegram - Shows ONLY "New Maestro Tweet" as clickable text, NO URL visible</li>
-            <li><strong>Markdown:</strong> Use in Discord, Reddit, etc. - Shows ONLY "New Maestro Tweet" as clickable text</li>
+            <li><strong>Plain URL (RECOMMENDED):</strong> Just copy and paste the URL - Telegram will create a preview card with "New Maestro Tweet" as the title. The URL will be in small text at the bottom of the preview.</li>
+            <li><strong>Markdown:</strong> Works but shows the URL below the link text (not ideal for Telegram)</li>
+            <li><strong>HTML:</strong> Doesn't work in Telegram - shows as plain text</li>
           </ul>
-          <p className="text-yellow-400 mt-3 text-xs">💡 Tip: Use the HTML format for Telegram - paste it and Telegram will convert it to a clickable "New Maestro Tweet" link with no URL visible!</p>
+          <p className="text-yellow-400 mt-3 text-xs">💡 Tip: Use the Plain URL format - Telegram's preview card will prominently show "New Maestro Tweet" as the title!</p>
         </div>
       </div>
     </div>
