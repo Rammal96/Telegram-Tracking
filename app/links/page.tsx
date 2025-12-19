@@ -112,20 +112,22 @@ export default function LinksPage() {
         </div>
         
         <div className="mt-8 p-4 bg-yellow-900/30 border border-yellow-400/30 rounded-lg">
-          <p className="text-yellow-400 font-semibold mb-2">How to create a "New Maestro Tweet" hyperlink in Telegram:</p>
+          <p className="text-yellow-400 font-semibold mb-2">How to create a "New Maestro Tweet" hyperlink in Telegram (NO URL visible):</p>
           <div className="text-gray-300 text-sm space-y-3">
             <div className="bg-gray-800 p-4 rounded-lg">
-              <p className="text-yellow-400 font-semibold mb-2">Method 1: Telegram Link Button (BEST - No URL shows):</p>
-              <ol className="list-decimal list-inside space-y-1 ml-2">
+              <p className="text-yellow-400 font-semibold mb-2">Step-by-Step Instructions:</p>
+              <ol className="list-decimal list-inside space-y-2 ml-2">
                 <li>Type: <code className="bg-gray-900 px-2 py-1 rounded">New Maestro Tweet</code></li>
                 <li>Select the text "New Maestro Tweet"</li>
                 <li>Tap the <strong>link icon</strong> (or use the menu → "Add Link")</li>
-                <li>Paste this URL: <code className="bg-gray-900 px-2 py-1 rounded break-all">{baseUrl}/{'{region}'}</code></li>
-                <li>Send - It will show as clickable "New Maestro Tweet" with NO URL visible!</li>
+                <li>Paste this URL: <code className="bg-gray-900 px-2 py-1 rounded break-all text-xs">{baseUrl}/{'{region}'}</code></li>
+                <li><strong>IMPORTANT:</strong> Before sending, long-press the message input field and select <strong>"Disable Web Page Preview"</strong> (or tap the preview card and disable it)</li>
+                <li>Send - It will show as clickable "New Maestro Tweet" with NO URL or preview card!</li>
               </ol>
+              <p className="text-yellow-400 mt-3 text-xs">💡 Tip: Disabling the preview is crucial - otherwise Telegram will show the URL in a preview card!</p>
             </div>
             <div className="bg-gray-800 p-4 rounded-lg">
-              <p className="text-yellow-400 font-semibold mb-2">Method 2: Markdown (Shows URL below):</p>
+              <p className="text-yellow-400 font-semibold mb-2">Alternative: Markdown (Shows URL below):</p>
               <p className="mb-2">Copy the Markdown format below - It works but shows the URL below the link text.</p>
             </div>
           </div>
