@@ -64,16 +64,16 @@ export default function RegionPage() {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="max-w-md w-full text-center">
-        <div className="bg-gray-900 border-2 border-yellow-400/30 rounded-2xl p-8 shadow-2xl">
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-yellow-400 mb-2">
-              New Maestro Tweet
-            </h1>
-            <p className="text-gray-400 text-sm">
-              {regionName} Region
-            </p>
-          </div>
+        <div className="max-w-md w-full text-center">
+          <div className="bg-gray-900 border-2 border-yellow-400/30 rounded-2xl p-8 shadow-2xl">
+            <div className="mb-6">
+              <h1 className="text-3xl font-bold text-yellow-400 mb-2">
+                New Maestro Tweet
+              </h1>
+              <p className="text-gray-400 text-sm">
+                {regionName} Region
+              </p>
+            </div>
           
           <button
             onClick={handleClick}
