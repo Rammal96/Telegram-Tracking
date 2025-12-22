@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import DashboardClient from '../DashboardClient'
-import StartWeek3Button from './start-button'
+import StartWeek4Button from './start-button'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 
@@ -16,24 +16,6 @@ interface Click {
 }
 
 async function getTrackingStartTime(): Promise<string | null> {
-  try {
-    const { data, error } = await supabase
-      .from('settings')
-      .select('value')
-      .eq('key', 'week3_start_time')
-      .single()
-
-    if (error || !data) {
-      return null
-    }
-
-    return data.value
-  } catch (error) {
-    return null
-  }
-}
-
-async function getWeek4StartTime(): Promise<string | null> {
   try {
     const { data, error } = await supabase
       .from('settings')
@@ -54,7 +36,6 @@ async function getWeek4StartTime(): Promise<string | null> {
 async function getClicks() {
   try {
     const startTime = await getTrackingStartTime()
-    const week4StartTime = await getWeek4StartTime()
     
     let query = supabase
       .from('clicks')
@@ -63,11 +44,6 @@ async function getClicks() {
 
     if (startTime) {
       query = query.gte('timestamp', startTime)
-    }
-
-    // Exclude Week 4 clicks if Week 4 has started
-    if (week4StartTime) {
-      query = query.lt('timestamp', week4StartTime)
     }
 
     const { data, error } = await query
@@ -89,20 +65,20 @@ async function getTweetCount(): Promise<number> {
     const { data, error } = await supabase
       .from('settings')
       .select('value')
-      .eq('key', 'week3_tweet_count')
+      .eq('key', 'week4_tweet_count')
       .single()
 
     if (error || !data) {
-      return 1 // Default to 1 if not set
+      return 0 // Default to 0 if not set
     }
 
-    return parseInt(data.value) || 1
+    return parseInt(data.value) || 0
   } catch (error) {
-    return 1
+    return 0
   }
 }
 
-export default async function Week3Dashboard() {
+export default async function Week4Dashboard() {
   // Check authentication
   const cookieStore = await cookies()
   const authCookie = cookieStore.get('dashboard_auth')
@@ -145,8 +121,8 @@ export default async function Week3Dashboard() {
     <div>
       {!startTime && (
         <div className="mb-6 bg-yellow-900/50 border border-yellow-400/30 p-4 rounded-lg">
-          <p className="text-yellow-400 mb-3">Week 3 tracking has not started yet.</p>
-          <StartWeek3Button />
+          <p className="text-yellow-400 mb-3">Week 4 tracking has not started yet.</p>
+          <StartWeek4Button />
         </div>
       )}
       <DashboardClient 
@@ -155,7 +131,7 @@ export default async function Week3Dashboard() {
         timeChartData={timeChartData} 
         totalClicks={totalClicks} 
         regionCounts={regionCounts}
-        title="Week 3 Dashboard"
+        title="Week 4 Dashboard"
         startTime={startTime}
         tweetCount={tweetCount}
       />
