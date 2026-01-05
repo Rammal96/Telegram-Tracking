@@ -37,31 +37,44 @@ async function getClicks() {
   try {
     const startTime = await getTrackingStartTime()
     
-    let query = supabase
-      .from('clicks')
-      .select('*', { count: 'exact' })
-      .order('timestamp', { ascending: false })
-      .limit(100000) // Increase limit to fetch all clicks (supports 100k+ clicks)
+    // Fetch all clicks using pagination to bypass Supabase's default 1000 limit
+    let allClicks: any[] = []
+    let from = 0
+    const pageSize = 1000
+    let hasMore = true
 
-    // Filter clicks from Week 4 start time (Dec 22) until now
-    if (startTime) {
-      query = query.gte('timestamp', startTime)
-      // No upper limit - shows all clicks from start time to present
-    }
+    while (hasMore) {
+      let query = supabase
+        .from('clicks')
+        .select('*', { count: 'exact' })
+        .order('timestamp', { ascending: false })
+        .range(from, from + pageSize - 1)
 
-    const { data, error } = await query
+      // Filter clicks from Week 4 start time (Dec 22) until now
+      if (startTime) {
+        query = query.gte('timestamp', startTime)
+      }
 
-    if (error) {
-      console.error('Error fetching clicks:', error)
-      return []
+      const { data, error } = await query
+
+      if (error) {
+        console.error('Error fetching clicks:', error)
+        break
+      }
+
+      if (data && data.length > 0) {
+        allClicks = [...allClicks, ...data]
+        from += pageSize
+        hasMore = data.length === pageSize // Continue if we got a full page
+      } else {
+        hasMore = false
+      }
     }
 
     // Log for debugging
-    if (data) {
-      console.log(`Week 4: Fetched ${data.length} clicks from ${startTime || 'beginning'} to now`)
-    }
+    console.log(`Week 4: Fetched ${allClicks.length} total clicks from ${startTime || 'beginning'} to now`)
 
-    return data || []
+    return allClicks
   } catch (error) {
     console.error('Error in getClicks:', error)
     return []
