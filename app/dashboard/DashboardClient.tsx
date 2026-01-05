@@ -105,10 +105,18 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div className="bg-gray-900/90 border border-yellow-400/20 p-6 rounded-lg shadow-xl">
             <h2 className="text-xl font-semibold mb-4 text-yellow-400">Clicks per Region</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={regionData}>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={regionData} margin={{ bottom: 60 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="region" stroke="#9CA3AF" />
+                <XAxis 
+                  dataKey="region" 
+                  stroke="#9CA3AF" 
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
+                  interval={0}
+                  tick={{ fontSize: 12 }}
+                />
                 <YAxis stroke="#9CA3AF" />
                 <Tooltip 
                   contentStyle={{ 
