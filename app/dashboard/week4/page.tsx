@@ -41,10 +41,12 @@ async function getClicks() {
       .from('clicks')
       .select('*', { count: 'exact' })
       .order('timestamp', { ascending: false })
-      .limit(100000) // Increase limit to fetch all clicks
+      .limit(100000) // Increase limit to fetch all clicks (supports 100k+ clicks)
 
+    // Filter clicks from Week 4 start time (Dec 22) until now
     if (startTime) {
       query = query.gte('timestamp', startTime)
+      // No upper limit - shows all clicks from start time to present
     }
 
     const { data, error } = await query
@@ -52,6 +54,11 @@ async function getClicks() {
     if (error) {
       console.error('Error fetching clicks:', error)
       return []
+    }
+
+    // Log for debugging
+    if (data) {
+      console.log(`Week 4: Fetched ${data.length} clicks from ${startTime || 'beginning'} to now`)
     }
 
     return data || []
