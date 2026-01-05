@@ -39,8 +39,9 @@ async function getClicks() {
     
     let query = supabase
       .from('clicks')
-      .select('*')
+      .select('*', { count: 'exact' })
       .order('timestamp', { ascending: false })
+      .limit(100000) // Increase limit to fetch all clicks
 
     // If Week 2 has started, only show clicks before that time
     if (startTime) {

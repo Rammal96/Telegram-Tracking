@@ -39,8 +39,9 @@ async function getClicks() {
     
     let query = supabase
       .from('clicks')
-      .select('*')
+      .select('*', { count: 'exact' })
       .order('timestamp', { ascending: false })
+      .limit(100000) // Increase limit to fetch all clicks
 
     if (startTime) {
       query = query.gte('timestamp', startTime)
