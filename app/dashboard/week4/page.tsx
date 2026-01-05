@@ -69,12 +69,12 @@ async function getTweetCount(): Promise<number> {
       .single()
 
     if (error || !data) {
-      return 0 // Default to 0 if not set
+      return 4 // Default to 4 if not set
     }
 
-    return parseInt(data.value) || 0
+    return parseInt(data.value) || 4
   } catch (error) {
-    return 0
+    return 4
   }
 }
 

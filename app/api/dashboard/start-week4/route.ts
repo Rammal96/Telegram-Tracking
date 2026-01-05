@@ -35,12 +35,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to set start time' }, { status: 500 })
     }
 
-    // Set tweet count to 0 initially
+    // Set tweet count to 4 initially
     await supabase
       .from('settings')
       .upsert({
         key: 'week4_tweet_count',
-        value: '0',
+        value: '4',
         updated_at: new Date().toISOString()
       }, {
         onConflict: 'key'
