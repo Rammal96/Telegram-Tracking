@@ -24,11 +24,14 @@ async function getTrackingStartTime(): Promise<string | null> {
       .single()
 
     if (error || !data) {
+      console.log('Week 5 start time not found, using default Jan 6, 2025')
       return null
     }
 
+    console.log('Week 5 start time from Supabase:', data.value)
     return data.value
   } catch (error) {
+    console.error('Error getting Week 5 start time:', error)
     return null
   }
 }
@@ -52,14 +55,16 @@ async function getClicks() {
 
       // Filter clicks from Week 5 start time (Jan 6, 2025 00:00:00 UTC) until now
       // Only show clicks from Jan 6 onwards, excluding all previous weeks
+      let filterTime: string
       if (startTime) {
-        // Use the start time from settings (should be Jan 6, 2025 00:00:00 UTC)
-        query = query.gte('timestamp', startTime)
+        filterTime = startTime
+        console.log('Using Week 5 start time from settings:', filterTime)
       } else {
         // If no start time set, default to Jan 6, 2025 00:00:00 UTC
-        const jan6 = new Date('2025-01-06T00:00:00.000Z')
-        query = query.gte('timestamp', jan6.toISOString())
+        filterTime = '2025-01-06T00:00:00.000Z'
+        console.log('Using default Week 5 start time:', filterTime)
       }
+      query = query.gte('timestamp', filterTime)
 
       const { data, error } = await query
 
