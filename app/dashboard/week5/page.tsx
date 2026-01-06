@@ -50,15 +50,15 @@ async function getClicks() {
         .order('timestamp', { ascending: false })
         .range(from, from + pageSize - 1)
 
-      // Filter clicks from Week 5 start time (today, Jan 6) until now
-      // Only show clicks from today onwards
+      // Filter clicks from Week 5 start time (Jan 6, 2025 00:00:00 UTC) until now
+      // Only show clicks from Jan 6 onwards, excluding all previous weeks
       if (startTime) {
+        // Use the start time from settings (should be Jan 6, 2025 00:00:00 UTC)
         query = query.gte('timestamp', startTime)
       } else {
-        // If no start time set, default to today at 00:00:00 UTC
-        const today = new Date()
-        today.setUTCHours(0, 0, 0, 0)
-        query = query.gte('timestamp', today.toISOString())
+        // If no start time set, default to Jan 6, 2025 00:00:00 UTC
+        const jan6 = new Date('2025-01-06T00:00:00.000Z')
+        query = query.gte('timestamp', jan6.toISOString())
       }
 
       const { data, error } = await query
