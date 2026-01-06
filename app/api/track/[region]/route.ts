@@ -57,6 +57,13 @@ export async function GET(
   }
 
   const twitterUrl = await getTwitterUrl()
+  console.log(`Redirecting region ${region} to Twitter URL: ${twitterUrl}`)
+  
+  if (!twitterUrl || !twitterUrl.startsWith('http')) {
+    console.error(`Invalid Twitter URL: ${twitterUrl}`)
+    return NextResponse.json({ error: 'Twitter URL not configured' }, { status: 500 })
+  }
+  
   // Use 307 redirect to preserve method and avoid confirmation dialogs
   return NextResponse.redirect(twitterUrl, { status: 307 })
 }
