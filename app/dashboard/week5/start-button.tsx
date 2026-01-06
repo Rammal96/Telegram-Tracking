@@ -2,7 +2,7 @@
 
 export default function StartWeek5Button() {
   const handleStart = async () => {
-    if (!confirm('Start Week 5 tracking? This will mark January 6, 2025 as the start point for Week 5.')) {
+    if (!confirm('Start Week 5 tracking? This will mark the current time as the start point for Week 5.')) {
       return
     }
 

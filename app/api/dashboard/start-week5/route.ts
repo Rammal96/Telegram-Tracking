@@ -16,9 +16,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Set the start time for Week 5 tracking to January 6, 2025 00:00:00 UTC
-    // This ensures Week 5 only tracks from Jan 6 onwards, excluding all previous weeks
-    const startTime = new Date('2025-01-06T00:00:00.000Z').toISOString()
+    // Set the start time for Week 5 tracking to the current timestamp
+    // This will track from now onwards, just like previous weeks
+    const startTime = new Date().toISOString()
 
     const { data, error } = await supabase
       .from('settings')
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ 
       success: true, 
       startTime,
-      message: 'Week 5 tracking started from January 6, 2025'
+      message: 'Week 5 tracking started'
     })
   } catch (error) {
     console.error('Exception setting Week 5 start time:', error)
