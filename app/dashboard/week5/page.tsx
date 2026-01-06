@@ -147,6 +147,13 @@ export default async function Week5Dashboard() {
           <StartWeek5Button />
         </div>
       )}
+      {startTime && (
+        <div className="mb-6 bg-blue-900/50 border border-blue-400/30 p-4 rounded-lg">
+          <p className="text-blue-400 mb-3">Week 5 is tracking from: {new Date(startTime).toLocaleString()}</p>
+          <p className="text-gray-400 text-sm mb-3">If this shows old data, click the button below to restart Week 5 from now.</p>
+          <StartWeek5Button />
+        </div>
+      )}
       <DashboardClient 
         clicks={clicks} 
         regionData={regionData} 
