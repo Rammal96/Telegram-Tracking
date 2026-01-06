@@ -33,42 +33,6 @@ async function getTrackingStartTime(): Promise<string | null> {
   }
 }
 
-async function getWeek5StartTime(): Promise<string | null> {
-  try {
-    const { data, error } = await supabase
-      .from('settings')
-      .select('value')
-      .eq('key', 'week5_start_time')
-      .single()
-
-    if (error || !data) {
-      return null
-    }
-
-    return data.value
-  } catch (error) {
-    return null
-  }
-}
-
-async function getWeek5StartTime(): Promise<string | null> {
-  try {
-    const { data, error } = await supabase
-      .from('settings')
-      .select('value')
-      .eq('key', 'week5_start_time')
-      .single()
-
-    if (error || !data) {
-      return null
-    }
-
-    return data.value
-  } catch (error) {
-    return null
-  }
-}
-
 async function getClicks() {
   try {
     const startTime = await getTrackingStartTime()
