@@ -36,6 +36,12 @@ async function getTrackingStartTime(): Promise<string | null> {
 async function getClicks() {
   try {
     const startTime = await getTrackingStartTime()
+    console.log('Week 5 getClicks - startTime:', startTime)
+    
+    if (!startTime) {
+      console.log('Week 5: No start time set, returning empty array')
+      return []
+    }
     
     // Fetch all clicks using pagination to bypass Supabase's default 1000 limit
     let allClicks: any[] = []
@@ -52,9 +58,8 @@ async function getClicks() {
 
       // Filter clicks from Week 5 start time until now
       // Only show clicks from when Week 5 started onwards
-      if (startTime) {
-        query = query.gte('timestamp', startTime)
-      }
+      query = query.gte('timestamp', startTime)
+      console.log(`Week 5: Fetching page ${from / pageSize + 1}, filtering from ${startTime}`)
 
       const { data, error } = await query
 
@@ -73,7 +78,11 @@ async function getClicks() {
     }
 
     // Log for debugging
-    console.log(`Week 5: Fetched ${allClicks.length} total clicks from ${startTime || 'beginning'} to now`)
+    console.log(`Week 5: Fetched ${allClicks.length} total clicks from ${startTime} to now`)
+    if (allClicks.length > 0) {
+      console.log('Week 5: First click timestamp:', allClicks[0].timestamp)
+      console.log('Week 5: Last click timestamp:', allClicks[allClicks.length - 1].timestamp)
+    }
 
     return allClicks
   } catch (error) {

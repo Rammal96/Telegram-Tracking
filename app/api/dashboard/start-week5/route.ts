@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     // Set the start time for Week 5 tracking to the current timestamp
     // This will track from now onwards, just like previous weeks
     const startTime = new Date().toISOString()
+    console.log('Setting Week 5 start time to:', startTime)
 
     const { data, error } = await supabase
       .from('settings')
@@ -33,8 +34,10 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Error setting Week 5 start time:', error)
-      return NextResponse.json({ error: 'Failed to set start time' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to set start time', details: error.message }, { status: 500 })
     }
+
+    console.log('Week 5 start time saved successfully:', data)
 
     // Set tweet count to 0 initially
     await supabase
