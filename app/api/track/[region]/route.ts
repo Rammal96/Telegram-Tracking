@@ -23,9 +23,16 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { region: string } }
 ) {
-  const region = params.region.toLowerCase()
+  const rawRegion = params.region
+  const region = rawRegion.toLowerCase()
+  const url = request.url
+
+  console.log(`[TRACK] URL: ${url}`)
+  console.log(`[TRACK] Raw region param: ${rawRegion}`)
+  console.log(`[TRACK] Normalized region: ${region}`)
 
   if (!VALID_REGIONS.includes(region)) {
+    console.error(`[TRACK] Invalid region: ${region}`)
     return NextResponse.json({ error: 'Invalid region' }, { status: 400 })
   }
 
@@ -34,6 +41,9 @@ export async function GET(
              'unknown'
   const userAgent = request.headers.get('user-agent') || 'unknown'
   const referer = request.headers.get('referer') || 'unknown'
+
+  console.log(`[TRACK] About to insert click for region: ${region}`)
+  console.log(`[TRACK] IP: ${ip}, Referer: ${referer}`)
 
   try {
     const { data, error } = await supabase
@@ -48,12 +58,15 @@ export async function GET(
       .select()
     
     if (error) {
-      console.error(`Error logging click for region ${region}:`, error)
+      console.error(`[TRACK] Error logging click for region ${region}:`, error)
     } else {
-      console.log(`Successfully logged click for region ${region}`)
+      console.log(`[TRACK] Successfully logged click for region ${region}. Inserted data:`, data)
+      if (data && data.length > 0) {
+        console.log(`[TRACK] Confirmed region in database: ${data[0].region}`)
+      }
     }
   } catch (error) {
-    console.error(`Exception logging click for region ${region}:`, error)
+    console.error(`[TRACK] Exception logging click for region ${region}:`, error)
   }
 
   const twitterUrl = await getTwitterUrl()
