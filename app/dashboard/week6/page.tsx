@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import DashboardClient from '../DashboardClient'
-import StartWeek5Button from './start-button'
+import StartWeek6Button from './start-button'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 
@@ -20,7 +20,7 @@ async function getTrackingStartTime(): Promise<string | null> {
     const { data, error } = await supabase
       .from('settings')
       .select('value')
-      .eq('key', 'week5_start_time')
+      .eq('key', 'week6_start_time')
       .single()
 
     if (error || !data) {
@@ -33,12 +33,12 @@ async function getTrackingStartTime(): Promise<string | null> {
   }
 }
 
-async function getWeek6StartTime(): Promise<string | null> {
+async function getWeek7StartTime(): Promise<string | null> {
   try {
     const { data, error } = await supabase
       .from('settings')
       .select('value')
-      .eq('key', 'week6_start_time')
+      .eq('key', 'week7_start_time')
       .single()
 
     if (error || !data) {
@@ -54,7 +54,7 @@ async function getWeek6StartTime(): Promise<string | null> {
 async function getClicks() {
   try {
     const startTime = await getTrackingStartTime()
-    const week6StartTime = await getWeek6StartTime()
+    const week7StartTime = await getWeek7StartTime()
     
     // Fetch all clicks using pagination to bypass Supabase's default 1000 limit
     let allClicks: any[] = []
@@ -69,14 +69,14 @@ async function getClicks() {
         .order('timestamp', { ascending: false })
         .range(from, from + pageSize - 1)
 
-      // Filter clicks from Week 5 start time until Week 6 starts
+      // Filter clicks from Week 6 start time until Week 7 starts
       if (startTime) {
         query = query.gte('timestamp', startTime)
       }
 
-      // Exclude Week 6 clicks if Week 6 has started
-      if (week6StartTime) {
-        query = query.lt('timestamp', week6StartTime)
+      // Exclude Week 7 clicks if Week 7 has started
+      if (week7StartTime) {
+        query = query.lt('timestamp', week7StartTime)
       }
 
       const { data, error } = await query
@@ -107,7 +107,7 @@ async function getTweetCount(): Promise<number> {
     const { data, error } = await supabase
       .from('settings')
       .select('value')
-      .eq('key', 'week5_tweet_count')
+      .eq('key', 'week6_tweet_count')
       .single()
 
     if (error || !data) {
@@ -120,7 +120,7 @@ async function getTweetCount(): Promise<number> {
   }
 }
 
-export default async function Week5Dashboard() {
+export default async function Week6Dashboard() {
   // Check authentication
   const cookieStore = await cookies()
   const authCookie = cookieStore.get('dashboard_auth')
@@ -163,8 +163,8 @@ export default async function Week5Dashboard() {
     <div>
       {!startTime && (
         <div className="mb-6 bg-yellow-900/50 border border-yellow-400/30 p-4 rounded-lg">
-          <p className="text-yellow-400 mb-3">Week 5 tracking has not started yet.</p>
-          <StartWeek5Button />
+          <p className="text-yellow-400 mb-3">Week 6 tracking has not started yet.</p>
+          <StartWeek6Button />
         </div>
       )}
       <DashboardClient 
@@ -173,11 +173,10 @@ export default async function Week5Dashboard() {
         timeChartData={timeChartData} 
         totalClicks={totalClicks} 
         regionCounts={regionCounts}
-        title="Week 5 Dashboard"
+        title="Week 6 Dashboard"
         startTime={startTime}
         tweetCount={tweetCount}
       />
     </div>
   )
 }
-

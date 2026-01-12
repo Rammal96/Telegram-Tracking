@@ -23,7 +23,6 @@ interface DashboardClientProps {
 }
 
 export default function DashboardClient({ clicks, regionData, timeChartData, totalClicks, regionCounts, title = "Tracking Dashboard", startTime, tweetCount }: DashboardClientProps) {
-
   return (
     <div className="min-h-screen bg-black p-8">
       <div className="max-w-7xl mx-auto">
@@ -40,36 +39,12 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
           </div>
           <div className="flex gap-3 items-center">
             <div className="flex gap-2 flex-wrap">
-              <a 
-                href="/dashboard"
-                className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200"
-              >
-                Week 1
-              </a>
-              <a 
-                href="/dashboard/week2"
-                className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200"
-              >
-                Week 2
-              </a>
-              <a 
-                href="/dashboard/week3"
-                className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200"
-              >
-                Week 3
-              </a>
-              <a 
-                href="/dashboard/week4"
-                className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200"
-              >
-                Week 4
-              </a>
-              <a 
-                href="/dashboard/week5"
-                className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200"
-              >
-                Week 5
-              </a>
+              <a href="/dashboard" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 1</a>
+              <a href="/dashboard/week2" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 2</a>
+              <a href="/dashboard/week3" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 3</a>
+              <a href="/dashboard/week4" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 4</a>
+              <a href="/dashboard/week5" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 5</a>
+              <a href="/dashboard/week6" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 6</a>
             </div>
             <button 
               onClick={() => window.location.reload()} 
