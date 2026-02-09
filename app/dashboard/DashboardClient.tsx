@@ -48,6 +48,7 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
               <a href="/dashboard/week7" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 7</a>
               <a href="/dashboard/week8" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 8</a>
               <a href="/dashboard/week9" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 9</a>
+              <a href="/dashboard/week10" className="px-4 py-2 bg-gray-700 text-gray-200 font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200">Week 10</a>
             </div>
             <button 
               onClick={() => window.location.reload()} 
