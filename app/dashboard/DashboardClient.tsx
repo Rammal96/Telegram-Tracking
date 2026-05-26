@@ -86,6 +86,7 @@ export default function DashboardClient({ clicks, regionData, timeChartData, tot
               <option value="22">Week 22</option>
               <option value="23">Week 23</option>
               <option value="24">Week 24</option>
+              <option value="25">Week 25</option>
             </select>
             <button 
               onClick={() => window.location.reload()} 
